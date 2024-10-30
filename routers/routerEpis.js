@@ -1,10 +1,13 @@
-const express = require('express')
+import express from "express"
+import {sla} from "../controllers/controlEpis.js"
 const router = express.Router();
-const controller = require('../controllers/controlEpis');
 
-router.post('/cadastrar',controller.addEpi)
-router.delete('/remover', controller.removerEpi)
-router.put('/editar', controller.editarEpi)
-router.get('/buscar', controller.buscarEpi)
+//router.get('/', sla)
 
-module.exports = router
+router.post('/cadastrar', controller.addEpi);
+router.delete('/remover/:id', controller.removerEpi);
+router.put('/editar/:id', controller.editarEpi);
+router.get('/buscar', controller.buscarEpi);
+
+
+export default router;
