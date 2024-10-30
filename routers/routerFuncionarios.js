@@ -1,10 +1,11 @@
-const express = require('express')
+import express from "express";
+import controller from "../controllers/controlFuncionario"; 
+
 const router = express.Router();
-const controller = require('../controllers/controlEpis');
 
-router.post('/cadastrar', controller.addFuncionario)
-router.delete('/remover', controller.removerFuncionario)
-router.put('/editar', controller.atualizarFuncionario)
-router.get('/buscar', controller.buscarFuncionario)
+router.post('/cadastrar', controller.addFuncionario);
+router.delete('/remover/:id', controller.removerFuncionario);
+router.put('/editar/:id', controller.atualizarFuncionario);
+router.get('/buscar', controller.buscarFuncionario);
 
-module.exports = router
+export default router;
