@@ -15,11 +15,7 @@ const Funcionarios = sequelize.define('Funcionarios', {
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-    telefone: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+    }
 })
 
 export default Funcionarios
