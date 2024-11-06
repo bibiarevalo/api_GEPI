@@ -1,11 +1,11 @@
 import express from "express";
-import controller from "../controllers/controlFuncionario"; 
+import { addFuncionario, buscarFuncionario, atualizarFuncionario, removerFuncionario } from "../controllers/controlFuncionario.js";
 
 const router = express.Router();
 
-router.post('/cadastrar', controller.addFuncionario);
-router.delete('/remover/:id', controller.removerFuncionario);
-router.put('/editar/:id', controller.atualizarFuncionario);
-router.get('/buscar', controller.buscarFuncionario);
+router.post('/cadastrar', addFuncionario);
+router.delete('/remover/:matricula', removerFuncionario);
+router.put('/editar/:matricula', atualizarFuncionario);
+router.get('/buscar', buscarFuncionario);
 
 export default router;

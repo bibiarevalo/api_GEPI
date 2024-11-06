@@ -1,13 +1,13 @@
 import express from "express"
-import {sla} from "../controllers/controlEpis.js"
+import {addEpi, buscarEpi, editarEpi,removerEpi } from "../controllers/controlEpis.js"
 const router = express.Router();
 
-//router.get('/', sla)
 
-router.post('/cadastrar', controller.addEpi);
-router.delete('/remover/:id', controller.removerEpi);
-router.put('/editar/:id', controller.editarEpi);
-router.get('/buscar', controller.buscarEpi);
+
+router.post('/cadastrar', addEpi);
+router.delete('/remover/:id', removerEpi);
+router.put('/editar/:id', editarEpi);
+router.get('/buscar', buscarEpi);
 
 
 export default router;
