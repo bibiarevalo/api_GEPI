@@ -1,17 +1,17 @@
-const database = require('../dataBase/dataBase.js')
-const Funcionarios = require('../models/Funcionarios.js');
+import Funcionarios from '../models/Funcionarios.js';
 
-exports.addFuncionario = async (req, res) => {
+export const  addFuncionario = async (req, res) => {
     try {
         const { nome, email, matricula } = req.body;
         const funcionarios = await Funcionarios.create({nome, email, matricula});
         return res.status(201).json(funcionarios);
     } catch (error) {
+        console.log(error)
         return res.status(400).json({ error: 'Erro ao cadastrar funcionário.' });
     }
 };
 
-exports.buscarFuncionario = async (req, res) => {
+export const buscarFuncionario = async (req, res) => {
     try {
         const funcionarios = await Funcionarios.findAll({ attributes: ['matricula'] });
         return res.status(200).json(funcionarios);
@@ -20,22 +20,23 @@ exports.buscarFuncionario = async (req, res) => {
     }
 };
 
-exports.atualizarFuncionario = async (req, res) => {
+export const atualizarFuncionario = async (req, res) => {
     try {
-        const { nome, email, matricula } = req.body;
+        const { nome, email } = req.body;
         const funcionarios = await Funcionarios.findByPk(req.params.matricula);
         if (funcionarios) {
-            await funcionarios.update({ nome, email, matricula });
+            await funcionarios.update({ nome, email });
             return res.status(200).json(funcionarios);
         } else {
-            return res.status(404).json({ error: 'funcionário não encontrada.' });
+            return res.status(404).json({ error: 'Funcionário não encontrado.' });
         }
-    } catch (error) {
+    } catch (error) { 
+        console.log(error); 
         return res.status(400).json({ error: 'Erro ao atualizar funcionário.' });
     }
 };
 
-exports.removerFuncionario = async (req, res) => {
+export const removerFuncionario = async (req, res) => {
     try {
         const funcionarios = await Funcionarios.findByPk(req.params.matricula);
         if (funcionarios) {
@@ -48,3 +49,5 @@ exports.removerFuncionario = async (req, res) => {
         return res.status(400).json({ error: 'Erro ao remover funcionário.' });
     }
 };
+
+export default {addFuncionario, buscarFuncionario, atualizarFuncionario,removerFuncionario }
