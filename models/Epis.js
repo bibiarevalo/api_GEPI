@@ -4,8 +4,8 @@ import sequelize from '../dataBase/db.js'
 const Epi = sequelize.define('Epi', {
 
     id: {
+    
         type: DataTypes.INTEGER,
-        autoIncrement: true,
         primaryKey: true,
     },
     nome: {
