@@ -20,6 +20,7 @@ const Epi = sequelize.define('Epi', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    
 
 });
 
