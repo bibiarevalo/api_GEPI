@@ -4,8 +4,7 @@ import sequelize from '../dataBase/db.js'
 const Funcionarios = sequelize.define('Funcionarios', {
 
     matricula: {
-        type: DataTypes.
-            INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true
     },
     nome: {
