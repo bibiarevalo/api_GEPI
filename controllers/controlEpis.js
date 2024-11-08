@@ -1,9 +1,11 @@
 import Epi from '../models/Epis.js';
+import Funcionarios from '../models/Funcionarios.js';
+import Registro from '../models/registro.js';
 
-export const  addEpi = async (req, res) => {
+export const addEpi = async (req, res) => {
     try {
-        const { nome, tipo, id,quantidade } = req.body;
-        const epi = await Epi.create({nome, tipo, id, quantidade});
+        const { nome, tipo, id, quantidade } = req.body;
+        const epi = await Epi.create({ nome, tipo, id, quantidade });
         return res.status(201).json(epi);
     } catch (error) {
         console.log(error)
@@ -30,8 +32,8 @@ export const editarEpi = async (req, res) => {
         } else {
             return res.status(404).json({ error: 'epi não encontrada.' });
         }
-    } catch (error) { 
-        console.log(error); 
+    } catch (error) {
+        console.log(error);
         return res.status(400).json({ error: 'Erro ao atualizar epi.' });
     }
 };
@@ -50,4 +52,22 @@ export const removerEpi = async (req, res) => {
     }
 };
 
-export default {addEpi, buscarEpi, editarEpi,removerEpi }
+export const retiradaEDevolucaoEpi = async (req, res) => {
+    try {
+        const { matricula, id } = req.body || {};
+
+        const funcionario = await Funcionarios.findOne({ where: { matricula } });
+        const epi = await Epi.findOne({ where: { id } });
+
+        if (!funcionario || !epi) {
+            return res.status(404).json({ error: 'Funcionário ou EPI não encontrado.' });
+        }
+        const registro = await Registro.create({ matricula, id, data: new Date() });
+        return res.status(201).json(registro);
+
+    } catch (error) {
+        return res.status(400).json({ error: 'Erro ao registrar retirada ou devolução.' });
+    }
+}
+
+export default { addEpi, buscarEpi, editarEpi, removerEpi, retiradaEDevolucaoEpi }
