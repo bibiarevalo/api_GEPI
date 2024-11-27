@@ -6,6 +6,6 @@ const router = express.Router();
 router.post('/cadastrar', addFuncionario);
 router.delete('/remover/:matricula', removerFuncionario);
 router.put('/editar/:matricula', atualizarFuncionario);
-router.get('/buscar', buscarFuncionario);
+router.get('/buscar/:matricula', buscarFuncionario);
 
 export default router;
