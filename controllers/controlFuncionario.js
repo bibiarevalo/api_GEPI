@@ -50,4 +50,48 @@ export const removerFuncionario = async (req, res) => {
     }
 };
 
-export default {addFuncionario, buscarFuncionario, atualizarFuncionario,removerFuncionario }
+
+export const listHistorico = async (req, res) => {
+    try {
+        const { funcionario_matricula, epi_id, data } = req.body || {};
+
+        const info_func = await Funcionarios.findOne({
+            where: { matricula: funcionario_matricula },
+            attributes: ['matricula', 'nome']
+        });
+        const info_epi = await Epi.findOne({
+            where: { id: epi_id },
+            attributes: ['id', 'nome']
+        });
+        const registros = await Registro.findAll({
+            where: data ? { data } : {},
+            attributes: ['funcionario_matricula', 'epi_id', 'data']
+        });
+
+        if (!info_func || !info_epi || registros.length === 0) {
+            return res.status(404).json({ error: 'Histórico não encontrado.' });
+        }
+
+        const historico = registros.map((registro) => ({
+            funcionario: {
+                matricula: registro.funcionario_matricula,
+                nome: info_func.nome
+            },
+            epi: {
+                id: registro.epi_id,
+                nome: info_epi.nome
+            },
+            data: registro.data
+        }));
+
+        
+        return res.status(200).json(historico);
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Erro ao listar histórico' });
+    }
+};
+
+
+export default {addFuncionario, buscarFuncionario, atualizarFuncionario,removerFuncionario, listHistorico }
