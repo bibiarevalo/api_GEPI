@@ -24,7 +24,12 @@ const Registro = sequelize.define('Registro', {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW
-    }
+    },
+
+    acao: {
+        type: DataTypes.STRING, 
+        allowNull: false,
+    },
 })
 
 export default Registro

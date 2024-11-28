@@ -1,6 +1,6 @@
 import Epi from '../models/Epis.js';
 import Funcionarios from '../models/Funcionarios.js';
-import Registro from '../models/registro.js';
+import Registro from '../models/Registro.js'
 
 export const addEpi = async (req, res) => {
     try {
@@ -54,7 +54,12 @@ export const removerEpi = async (req, res) => {
 
 export const retiradaEDevolucaoEpi = async (req, res) => {
     try {
-        const { funcionario_matricula,epi_id } = req.body || {};
+
+        const { matricula, id, acao } = req.body || {};
+
+        if (!["Retirar", "Devolver"].includes(acao)) {
+            return res.status(400).json({ error: "Ação inválida. Use 'Retirar' ou 'Devolver'." });
+        }
 
         const funcionario = await Funcionarios.findOne({ where: { matricula:funcionario_matricula } });
         const epi = await Epi.findOne({ where: { id:epi_id } });
@@ -62,7 +67,14 @@ export const retiradaEDevolucaoEpi = async (req, res) => {
         if (!funcionario || !epi) {
             return res.status(404).json({ error: 'Funcionário ou EPI não encontrado.' });
         }
-        const registro = await Registro.create({ funcionario_matricula,epi_id, data: new Date() });
+     
+        const registro = await Registro.create({ 
+            funcionario_matricula: matricula, 
+            epi_id: id, 
+            data: new Date(),
+            acao 
+        });
+
         return res.status(201).json(registro);
 
     } catch (error) {
