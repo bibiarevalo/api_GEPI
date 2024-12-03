@@ -1,4 +1,6 @@
+import Epi from '../models/Epis.js';
 import Funcionarios from '../models/Funcionarios.js';
+import Registro from '../models/Registro.js';
 
 export const  addFuncionario = async (req, res) => {
     try {
@@ -55,37 +57,34 @@ export const listHistorico = async (req, res) => {
     try {
         const { funcionario_matricula, epi_id, data } = req.body || {};
 
-        const info_func = await Funcionarios.findOne({
-            where: { matricula: funcionario_matricula },
-            attributes: ['matricula', 'nome']
-        });
-        const info_epi = await Epi.findOne({
-            where: { id: epi_id },
-            attributes: ['id', 'nome']
-        });
+        
         const registros = await Registro.findAll({
-            where: data ? { data } : {},
-            attributes: ['funcionario_matricula', 'epi_id', 'data']
+            // where: data ? { data } : {},
+            // attributes: ['funcionario_matricula', 'epi_id', 'data'],
+            include: [
+                { model: Funcionarios },
+                { model: Epi }
+            ]
         });
 
-        if (!info_func || !info_epi || registros.length === 0) {
-            return res.status(404).json({ error: 'Histórico não encontrado.' });
-        }
+        // if (!info_func || !info_epi || registros.length === 0) {
+        //     return res.status(404).json({ error: 'Histórico não encontrado.' });
+        // }
 
-        const historico = registros.map((registro) => ({
-            funcionario: {
-                matricula: registro.funcionario_matricula,
-                nome: info_func.nome
-            },
-            epi: {
-                id: registro.epi_id,
-                nome: info_epi.nome
-            },
-            data: registro.data
-        }));
+        // const historico = registros.map((registro) => ({
+        //     funcionario: {
+        //         matricula: registro.funcionario_matricula,
+        //         nome: info_func.nome
+        //     },
+        //     epi: {
+        //         id: registro.epi_id,
+        //         nome: info_epi.nome
+        //     },
+        //     data: registro.data
+        // }));
 
         
-        return res.status(200).json(historico);
+        return res.status(200).json(registros);
 
     } catch (error) {
         console.error(error);
