@@ -55,22 +55,23 @@ export const removerEpi = async (req, res) => {
 export const retiradaEDevolucaoEpi = async (req, res) => {
     try {
 
-        const { matricula, id, acao } = req.body || {};
+        const { funcionario_matricula, epi_id, acao } = req.body || {};
+        
 
         if (!["Retirar", "Devolver"].includes(acao)) {
             return res.status(400).json({ error: "Ação inválida. Use 'Retirar' ou 'Devolver'." });
         }
 
-        const funcionario = await Funcionarios.findOne({ where: { matricula:funcionario_matricula } });
-        const epi = await Epi.findOne({ where: { id:epi_id } });
+        const funcionario = await Funcionarios.findOne({ where: {matricula: funcionario_matricula } }); 
+        const epi = await Epi.findByPk(epi_id);
 
         if (!funcionario || !epi) {
             return res.status(404).json({ error: 'Funcionário ou EPI não encontrado.' });
         }
      
         const registro = await Registro.create({ 
-            funcionario_matricula: matricula, 
-            epi_id: id, 
+            matricula: funcionario_matricula, 
+            epi_id, 
             data: new Date(),
             acao 
         });

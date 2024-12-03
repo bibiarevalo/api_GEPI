@@ -7,7 +7,6 @@ router.post('/cadastrar', addFuncionario);
 router.delete('/remover/:matricula', removerFuncionario);
 router.put('/editar/:matricula', atualizarFuncionario);
 router.get('/historico', listHistorico);
-
 router.get('/buscar/:matricula', buscarFuncionario);
 
 

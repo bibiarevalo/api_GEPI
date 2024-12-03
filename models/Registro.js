@@ -14,12 +14,12 @@ const Registro = sequelize.define('Registro', {
 
     epi_id: {
         type: DataTypes.INTEGER,
-        foreingKey:{
-            model:Epi,
+        foreingKey: {
+            model: Epi,
             key: "id",
         },
     },
-          
+
     data: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -27,9 +27,12 @@ const Registro = sequelize.define('Registro', {
     },
 
     acao: {
-        type: DataTypes.STRING, 
+        type: DataTypes.STRING,
         allowNull: false,
     },
 })
+
+Registro.belongsTo(Funcionarios, { foreignKey: "funcionario_matricula" });
+Registro.belongsTo(Epi, { foreignKey: "epi_id" });
 
 export default Registro

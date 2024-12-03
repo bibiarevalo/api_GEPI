@@ -11,4 +11,4 @@ router.get('/buscar', buscarEpi);
 router.post('/gerenciamento', retiradaEDevolucaoEpi)
 
 
-export default router;  
+export default router;      
