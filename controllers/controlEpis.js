@@ -70,7 +70,7 @@ export const retiradaEDevolucaoEpi = async (req, res) => {
         }
      
         const registro = await Registro.create({ 
-            matricula: funcionario_matricula, 
+            funcionario_matricula, 
             epi_id, 
             data: new Date(),
             acao 

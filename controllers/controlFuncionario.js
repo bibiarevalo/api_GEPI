@@ -55,35 +55,19 @@ export const removerFuncionario = async (req, res) => {
 
 export const listHistorico = async (req, res) => {
     try {
-        const { funcionario_matricula, epi_id, data } = req.body || {};
-
-        
         const registros = await Registro.findAll({
-            // where: data ? { data } : {},
-            // attributes: ['funcionario_matricula', 'epi_id', 'data'],
+            attributes: ['data', 'acao'], 
             include: [
-                { model: Funcionarios },
-                { model: Epi }
+                {
+                    model: Funcionarios,
+                    attributes: ['nome', 'matricula']
+                },
+                {
+                    model: Epi,
+                    attributes: ['nome'] 
+                }
             ]
         });
-
-        // if (!info_func || !info_epi || registros.length === 0) {
-        //     return res.status(404).json({ error: 'Histórico não encontrado.' });
-        // }
-
-        // const historico = registros.map((registro) => ({
-        //     funcionario: {
-        //         matricula: registro.funcionario_matricula,
-        //         nome: info_func.nome
-        //     },
-        //     epi: {
-        //         id: registro.epi_id,
-        //         nome: info_epi.nome
-        //     },
-        //     data: registro.data
-        // }));
-
-        
         return res.status(200).json(registros);
 
     } catch (error) {
